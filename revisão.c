@@ -38,10 +38,9 @@ void Busca(char Cidades[5][30], int Servidores[5][3]) {
    printf("\nInsira uma cidade para buscar seus dados: ");
    setbuf(stdin, NULL);
    fgets(Busca,20,stdin);
-   setbuf(stdin, NULL);
    Busca[strcspn(Busca,"\n")] = '\0';
    for(size_t  i = 0; i < 5; i++) {
-       if(strcasecmp(Busca, Cidades[i] == 0)) {
+       if(!strcasecmp(Busca, Cidades[i])) {
            printf("\nNome: %-20s | Servidores Ativos: %i | Servidores Falhos: %i | Total de Servidores: %i\n", Cidades[i], Servidores[i][0], Servidores[i][1], Servidores[i][2]);          
        }
    } 
@@ -79,9 +78,18 @@ void ExibirPorcentagemGeral(int Servidores[5][3]) {
        Problemas += Servidores[i][1];
        Total += Servidores[i][1];
    }
- 
+
    printf("\nFalhos: %.2f%%\nOperantes: %.2f%%\n", (float)(Problemas * 100) / Total, (float)(Ativos * 100) / Total);
 }
+
+ 
+    void defeated(int Servidores[5][3], char Cidades[5][30]) {
+        for(size_t i = 0; i < 5; i++) {
+            if(Servidores[i][1] > Servidores[i][0]) {
+                strcat(Cidades[i], " defeated");
+            }
+        }
+    }
  
 int main() {
    char Cidades[5][30];
@@ -89,7 +97,9 @@ int main() {
    Inserir(Cidades, Servidores);
    ServidoresTotais(Servidores);
    ExibirTudo(Cidades, Servidores);
-   //Busca(Cidades, Servidores);
+   Busca(Cidades, Servidores);
    ExibirPorcentagem(Cidades, Servidores);
    ExibirPorcentagemGeral(Servidores);
+   defeated(Servidores, Cidades);
+   ExibirTudo(Cidades, Servidores);
 }
